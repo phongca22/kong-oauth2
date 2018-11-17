@@ -9,8 +9,10 @@ curl -i -X POST \
   --data 'name=google-svc' \
   --data 'url=http://google.com'
 ```
+Get `service_id` in the response.
 
 ## Create a Route
+Replace `service_id` in `/services/{service_id}/routes`
 
 ``` bash
 curl -i -X POST \
@@ -19,11 +21,13 @@ curl -i -X POST \
   --data 'methods[]=GET&methods[]=POST'
 ```
 
+Get `route_id` in the response.
+
 ## Test
 
 ``` bash
 curl -i -X GET \
-  --url http://localhost:8000/ \
+  --url http://localhost:8000/
 ```
 
 You will see Google website content
@@ -36,11 +40,11 @@ curl -X POST http://localhost:8001/consumers/ \
     --data "username=phong" \
     --data "custom_id=phong_id"
 ```
-The response will return the Consumer Id, you should note it.
-Example: id = 01b28940-7ece-4179-8b58-73b731d8e607
+Get `consumer_id` in the response.
 
 ## Create an Application
-Use Consumer ID above
+Replace `consumer_id` in `/consumers/{consumer_id}/oauth2`.
+
 ``` bash
 curl -X POST http://localhost:8001/consumers/01b28940-7ece-4179-8b58-73b731d8e607/oauth2 \
     --data "name=oauth-2-app" \
@@ -48,3 +52,36 @@ curl -X POST http://localhost:8001/consumers/01b28940-7ece-4179-8b58-73b731d8e60
     --data "client_secret=cserect" \
     --data "redirect_uri=http://google.com"
 ```
+
+We have `client_id` and `client_secret`.
+
+## Enabling the plugin on a Service
+Replace `service_id` in `/services/{service_id}/plugins`.
+``` bash
+curl -X POST http://localhost:8001/services/google-svc/plugins \
+    --data "name=oauth2"  \
+    --data "config.scopes=email,read" \
+    --data "config.mandatory_scope=true" \
+    --data "config.enable_password_grant=true"
+```
+
+Get `provision_key` in the response.
+
+## Get token
+Parameters:
+* `authenticated_userid` = `custom_id`
+
+``` bash
+curl -k https://localhost:8443/google-svc/oauth2/token \
+     --data "client_id=cid" \
+     --data "client_secret=cserect" \
+     --data "grant_type=password" \
+     --data "scope=read" \
+     --data "provision_key=kDNBwCVrTjQU5cLQI2FDyI6onAYpAIBI" \
+     --data "authenticated_userid=phong_id"
+```
+
+We have `access_token` and `refesh_token`.
+     
+     
+
