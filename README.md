@@ -30,7 +30,7 @@ curl -i -X GET \
   --url http://localhost:8000/
 ```
 
-You will see Google website content
+We will see Google website content
 
 
 ## Create a Consumer
@@ -82,6 +82,17 @@ curl -k https://localhost:8443/google-svc/oauth2/token \
 ```
 
 We have `access_token` and `refesh_token`.
+
+## Test without oauth2
+``` bash
+curl -i -X GET \
+  --url http://localhost:8000/
+```
+
+Error
+``` json
+```
+
      
      
 
