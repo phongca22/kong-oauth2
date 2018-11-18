@@ -9,7 +9,7 @@ curl -i -X POST \
   --data 'name=google-svc' \
   --data 'url=http://google.com'
 ```
-Get `service_id` in the response.
+We have `service_id`.
 
 ## Create a Route
 Replace `service_id` in `/services/{service_id}/routes`
@@ -21,7 +21,7 @@ curl -i -X POST \
   --data 'methods[]=GET&methods[]=POST'
 ```
 
-Get `route_id` in the response.
+We get `route_id`.
 
 ## Test
 
@@ -40,7 +40,7 @@ curl -X POST http://localhost:8001/consumers/ \
     --data "username=phong" \
     --data "custom_id=phong_id"
 ```
-Get `consumer_id` in the response.
+We get `consumer_id`.
 
 ## Create an Application
 Replace `consumer_id` in `/consumers/{consumer_id}/oauth2`.
@@ -65,7 +65,7 @@ curl -X POST http://localhost:8001/services/google-svc/plugins \
     --data "config.enable_password_grant=true"
 ```
 
-Get `provision_key` in the response.
+We get `provision_key`.
 
 ## Get token
 Parameters:
@@ -81,7 +81,7 @@ curl -k https://localhost:8443/google-svc/oauth2/token \
      --data "authenticated_userid=phong_id"
 ```
 
-We have `access_token` and `refesh_token`.
+We get `access_token` and `refesh_token`.
 
 ## Test without oauth2
 ``` bash
@@ -117,6 +117,8 @@ curl -k POST https://localhost:8443/google-svc/oauth2/token \
     --data "client_secret=csecret" \
     --data "refresh_token=a503faf9-45b5-4fec-8334-337284a66ea4"
 ```
+
+We get new `access_token` and `refesh_token`.
      
      
 
