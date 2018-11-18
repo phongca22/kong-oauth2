@@ -91,8 +91,32 @@ curl -i -X GET \
 
 Error
 ``` json
+{
+    "error_description": "The access token is missing",
+    "error": "invalid_request"
+}
 ```
 
+## Test with oauth2
+
+Replace `access_token` in `Authorization: Bearer {access_token}`.
+``` bash
+curl -i -X GET \
+  --url http://localhost:8000/ \
+  --header "Authorization: Bearer a503faf9-45b5-4fec-8334-337284a66ea4"
+```
+
+We will see Google website content again.
+
+## Refresh token
+Replace `refresh_token` in `--data "refresh_token={refresh_token}"`.
+``` bash
+curl -k POST https://localhost:8443/google-svc/oauth2/token \
+    --data "grant_type=refresh_token" \
+    --data "client_id=ci" \
+    --data "client_secret=csecret" \
+    --data "refresh_token=a503faf9-45b5-4fec-8334-337284a66ea4"
+```
      
      
 
